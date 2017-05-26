@@ -1,0 +1,26 @@
+stages: 
+  - build
+
+before_script:
+  - eval $(ssh-agent -s)
+  - ssh-add <(echo "$SSH_PRIVATE_KEY")
+  
+aosp_build:
+  stage: build
+  cache:
+    key: '${CI_BUILD_REF_NAME}'
+    paths:
+     - ccache/
+     - aosp/
+  script:
+    - cd /builds/tophat
+    - mkdir -p aosp
+    - cd aosp
+    - repo init -u git@github.com:CronoBLOCKS/manifest.git -b master --repo-url=git://codeaurora.org/tools/repo.git --repo-branch=caf-stable --depth=1
+    - repo sync -j15
+    - source build/envsetup.sh
+    - lunch blocks_tophat-userdebug
+    - m -j15
+    - tar -cvzf out.tar.gz out/target/product/tophat/*.img
+  tags: 
+    - aosp
