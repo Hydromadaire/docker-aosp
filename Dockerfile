@@ -1,7 +1,7 @@
 FROM ubuntu:14.04
 
 # Default Gitlab build dir
-VOLUME "/builds/tophat"
+VOLUME "/builds"
 
 # By default Ubuntu doesn't know where to get the packages
 RUN sudo apt-get update
@@ -35,7 +35,7 @@ RUN mkdir -p ~/.ssh
 RUN echo "Host * \n\t StrictHostKeyChecking no \n\t UserKnownHostsFile /dev/null" > ~/.ssh/config
 
 # Enable CCache https://source.android.com/source/initializing
-RUN mkdir -p /builds/tophat/ccache
+RUN mkdir -p /builds/ccache
 
 ENV USE_CCACHE 1
-ENV CCACHE_DIR /builds/tophat/ccache
+ENV CCACHE_DIR /builds/ccache
