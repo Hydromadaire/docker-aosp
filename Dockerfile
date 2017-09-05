@@ -18,6 +18,13 @@ RUN sudo apt-get install -y openjdk-7-jdk
 # Install python for repo to work, and vim for debugging convenience
 RUN sudo apt-get install -y python vim
 
+# Install bc for MTK builds
+RUN sudo apt-get install -y bc
+
+# Install hexdump and imagemagick to support CM13
+RUN sudo apt-get update
+RUN sudo apt-get install -y bsdmainutils imagemagick
+
 # Install ssh agent if it is not already installed
 RUN which ssh-agent || ( apt-get update -y && apt-get install openssh-client -y )
 
