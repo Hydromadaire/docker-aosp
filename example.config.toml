@@ -1,0 +1,19 @@
+concurrent = 4
+check_interval = 0
+
+[[runners]]
+  name = "gitlab-runner"
+  url = "https://gitlab.../"
+  token = "..."
+  executor = "docker"
+  output_limit = 100000
+  [runners.docker]
+    tls_verify = false
+    image = "blockswearables/aosp8"
+    privileged = false
+    disable_cache = false
+    shm_size = 0
+    cache_dir = "/cache"	
+  pull_policy = "if-not-present"
+  [runners.cache]
+
