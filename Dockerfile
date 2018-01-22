@@ -1,7 +1,7 @@
 FROM ubuntu:14.04
 
 # Default Gitlab build dir
-VOLUME "/builds/tophat"
+VOLUME "/builds/sombrero"
 
 # By default Ubuntu doesn't know where to get the packages
 RUN sudo apt-get update
@@ -12,8 +12,16 @@ RUN sudo apt-get install -y git-core gnupg flex bison gperf build-essential \
                             lib32ncurses5-dev x11proto-core-dev libx11-dev lib32z-dev ccache \
                             libgl1-mesa-dev libxml2-utils xsltproc unzip
 
-# Use JDK 7 for Crono buiolds
+# Install add-apt-repository
+RUN sudo apt-get install -y software-properties-common
+
+# Use JDK 7 for Crono
 RUN sudo apt-get install -y openjdk-7-jdk
+
+# Use JDK 8 for Oreo
+RUN sudo apt-add-repository ppa:openjdk-r/ppa
+RUN sudo apt-get update
+RUN sudo apt-get install -y openjdk-8-jdk
 
 # Install python for repo to work, and vim for debugging convenience
 RUN sudo apt-get install -y python vim
@@ -44,5 +52,11 @@ RUN echo "Host * \n\t StrictHostKeyChecking no \n\t UserKnownHostsFile /dev/null
 # Enable CCache https://source.android.com/source/initializing
 RUN mkdir -p /builds/tophat/ccache
 
+# Install android SDK for building apps
+RUN sudo apt-get install -y expect wget
+RUN curl -L https://raw.githubusercontent.com/blockswearables/android-sdk-installer/version-2/android-sdk-installer | bash /dev/stdin --install=build-tools-26.0.1,android-26 
+RUN sudo cat ~/.android-sdk-installer/env >> ~/.bashrc 
+
+ENV ANDROID_HOME /root/.android-sdk-installer/android-sdk-linux
 ENV USE_CCACHE 1
 ENV CCACHE_DIR /builds/tophat/ccache

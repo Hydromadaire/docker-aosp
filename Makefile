@@ -1,2 +1,2 @@
 all:
-	docker build -t blockswearables/aosp ./
+	docker build -t blockswearables/aosp8 ./
