@@ -55,6 +55,7 @@ RUN mkdir -p /builds/tophat/ccache
 # Install android SDK for building apps
 RUN sudo apt-get install -y expect wget
 RUN curl -L https://raw.githubusercontent.com/blockswearables/android-sdk-installer/version-2/android-sdk-installer | bash /dev/stdin --install=build-tools-26.0.1,android-26 
+RUN yes | ~/.android-sdk-installer/android-sdk-linux/tools/android update sdk --no-ui
 RUN sudo cat ~/.android-sdk-installer/env >> ~/.bashrc 
 
 ENV ANDROID_HOME /root/.android-sdk-installer/android-sdk-linux
